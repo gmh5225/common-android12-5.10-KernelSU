@@ -1,0 +1,59 @@
+name: build
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.head_ref }}
+  cancel-in-progress: true
+  
+on: [push, pull_request]
+
+jobs:
+  build:
+    # Skip building pull requests from the same repository
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    env:
+      BUILD_TYPE: Release
+    steps:
+
+    - name: Setup build deps
+      run: |
+          sudo apt-get install build-essential make cmake \
+          && sudo apt-get install p7zip-full p7zip-rar
+          
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+      with:
+          path: common-android12-5.10-KernelSU
+          submodules: 'recursive'
+          
+    - name: Build GKI
+      run: |
+        cd common-android12-5.10-KernelSU
+        LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
+        
+    - name: Package llvm
+      run: 
+          7z a GKI-android12-5.10-kit.zip out
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: GKI-android12-5.10-kit
+        path: GKI-android12-5.10-kit.zip
+    
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      with:
+        prerelease: ${{ !startsWith(github.ref, 'refs/tags/v') || contains(github.ref, '-pre') }}
+        files: GKI-android12-5.10-kit.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
