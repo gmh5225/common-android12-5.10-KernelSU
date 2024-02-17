@@ -38,7 +38,7 @@ jobs:
         cd common-android12-5.10-KernelSU
         LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
         
-    - name: Package llvm
+    - name: Package GKI
       run: 
           7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/out
     
