@@ -40,7 +40,7 @@ jobs:
         
     - name: Package llvm
       run: 
-          7z a GKI-android12-5.10-kit.zip out
+          7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/out
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
