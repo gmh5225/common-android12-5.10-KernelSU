@@ -40,7 +40,7 @@ jobs:
         
     - name: Package GKI
       run: 
-          7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/out
+          7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/out common-android12-5.10-KernelSU/common
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
