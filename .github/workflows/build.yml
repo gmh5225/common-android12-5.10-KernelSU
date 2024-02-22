@@ -38,9 +38,20 @@ jobs:
         cd common-android12-5.10-KernelSU
         LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
         
+    - name: Copy SDK
+      run: |
+        cd common-android12-5.10-KernelSU
+        cp -r out/android12-5.10/common/arch/arm64/include/generated/asm common/include/
+        cp -r out/android12-5.10/common/arch/arm64/include/generated/uapi/asm common/include/
+        cp -r out/android12-5.10/common/arch/arm64/include/generated/uapi/asm common/include/uapi/
+        cp out/android12-5.10/common/scripts/basic/fixdep common/scripts/basic/
+        cp out/android12-5.10/common/scripts/mod/modpost common/scripts/mod/
+        cp out/android12-5.10/common/scripts/module.lds common/scripts/
+        cp out/android12-5.10/common/Module.symvers common/ 
+        
     - name: Package GKI
       run: 
-          7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/out common-android12-5.10-KernelSU/common
+          7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/common
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
