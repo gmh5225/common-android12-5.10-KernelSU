@@ -44,6 +44,8 @@ jobs:
         cp -r out/android12-5.10/common/arch/arm64/include/generated/asm common/include/
         cp -r out/android12-5.10/common/arch/arm64/include/generated/uapi/asm common/include/
         cp -r out/android12-5.10/common/arch/arm64/include/generated/uapi/asm common/include/uapi/
+        cp -r out/android12-5.10/common/include/generated common/include/
+        cp -r out/android12-5.10/common/include/config common/include/
         cp out/android12-5.10/common/scripts/basic/fixdep common/scripts/basic/
         cp out/android12-5.10/common/scripts/mod/modpost common/scripts/mod/
         cp out/android12-5.10/common/scripts/module.lds common/scripts/
