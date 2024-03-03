@@ -52,8 +52,9 @@ jobs:
         cp out/android12-5.10/common/Module.symvers common/ 
         
     - name: Package GKI
-      run: 
-          7z a GKI-android12-5.10-kit.zip common-android12-5.10-KernelSU/common
+      run: |
+          mv common-android12-5.10-KernelSU GKI-android12-5.10-kit
+          7z a GKI-android12-5.10-kit.zip GKI-android12-5.10-kit/common
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
